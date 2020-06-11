@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get(
 # DEBUG = True
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['https://kei-wiki.herokuapp.com/', '127.0.0.1']
+ALLOWED_HOSTS = ['kei-wiki.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
