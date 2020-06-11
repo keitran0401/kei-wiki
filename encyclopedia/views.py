@@ -26,28 +26,20 @@ def entry(request, title):
 
 def search(request):
     if request.method == "POST":
-        title = request.POST["q"].lower()
-        content = util.get_entry(title)
+        title = request.POST["q"]
+        entries = util.list_entries()
+        contents = []
 
-        if content == None:
-            entries = util.list_entries()
-            contents = []
+        for entry in entries:
+            entry = entry
+            if entry.find(title) != -1:
+                contents.append(entry)
 
-            for entry in entries:
-                entry = entry.lower()
-                if entry.find(title) != -1:
-                    contents.append(entry)
+        if len(contents) == 0:
+            return HttpResponseBadRequest("Bad Request: the requested page was not found")
 
-            if len(contents) == 0:
-                return HttpResponseBadRequest("Bad Request: the requested page was not found")
-
-            return render(request, "encyclopedia/search.html", {
-                "contents": contents
-            })
-
-        return render(request, "encyclopedia/entry.html", {
-            "title": title,
-            "content": content
+        return render(request, "encyclopedia/search.html", {
+            "contents": contents
         })
 
     return HttpResponseRedirect(reverse("wiki:index"))
